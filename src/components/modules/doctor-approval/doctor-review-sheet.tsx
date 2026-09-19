@@ -12,7 +12,7 @@ export default function DoctorReviewSheet() {
   return (
     <Sheet>
       <SheetTrigger>
-        <Button variant="outline">Review</Button>
+        Review
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

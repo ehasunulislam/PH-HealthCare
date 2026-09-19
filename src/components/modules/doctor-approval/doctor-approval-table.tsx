@@ -8,25 +8,52 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DoctorReviewSheet from "./doctor-review-sheet";
+import { useGetAllDoctors } from "@/hooks";
 
 
 export default function DoctorApprovalTable() {
+
+  const {data, isPending} = useGetAllDoctors();
+
+  console.log(data);
+
+  const doctors = data?.data || [];
+
+  console.log("doctors:", doctors);
+
+  if(isPending) {
+    return <p>Loading....</p>
+  }
+
+
   return (
     <div className="border rounded-lg">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Name</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>License No.</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Contact no.</TableHead>
+            <TableHead>Specialization.</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">Mir Hussain</TableCell>
-            <TableCell className="text-right">
-              <DoctorReviewSheet />
-            </TableCell>
-          </TableRow>
+          {
+            doctors.map((doctor) => (
+              <TableRow>
+                <TableCell>{doctor.name}</TableCell>
+                <TableCell>{doctor.licenseNumber}</TableCell>
+                <TableCell>{doctor.email}</TableCell>
+                <TableCell>{doctor.contactNumber ? doctor.contactNumber : "-"}</TableCell>
+                <TableCell>{doctor.specialization}</TableCell>
+                <TableCell className="text-right">
+                  <DoctorReviewSheet />
+                </TableCell>
+              </TableRow>
+            ))
+          }
         </TableBody>
       </Table>
     </div>

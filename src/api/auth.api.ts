@@ -10,7 +10,7 @@ export function userLogin(payload: LoginPayload) {
 }
 
 export function verifyAccount(payload: VerifyAccountPayload) {
-  return apiClient("/auth/verify-email", { method: "POST", body: payload });
+  return apiClient("/auth/verified-email", { method: "POST", body: payload });
 }
 
 export function userRegistration(payload: RegistrationPayload) {

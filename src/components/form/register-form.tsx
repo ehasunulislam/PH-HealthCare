@@ -45,6 +45,10 @@ export function RegisterForm() {
       onSubmit: patientRegistrationSchema,
     },
     onSubmit: async ({ value }) => {
+      console.log("VALUE:", value);
+      console.log("NAME:", value.name);
+      console.log("NAME TYPE:", typeof value.name);
+
       const registrationData = {
         name: value.name,
         email: value.email,
