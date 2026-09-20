@@ -8,23 +8,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import DoctorReviewSheet from "./doctor-review-sheet";
-import { useGetAllDoctors } from "@/hooks";
+import { useSuspenseGetAllDoctors } from "@/hooks";
+import { DoctorParams, DoctorVerificationStatus } from "@/types";
+import { Dispatch, SetStateAction } from "react";
 
 
-export default function DoctorApprovalTable() {
+interface Props extends DoctorParams{
+  handleReview: Dispatch<SetStateAction<string>>;
+}
 
-  const {data, isPending} = useGetAllDoctors();
 
-  console.log(data);
+export default function DoctorApprovalTable({handleReview, ...params }: Props) {
 
-  const doctors = data?.data || [];
-
-  console.log("doctors:", doctors);
-
-  if(isPending) {
-    return <p>Loading....</p>
-  }
-
+  const {data} = useSuspenseGetAllDoctors(params);
+  const doctors = data?.data;
 
   return (
     <div className="border rounded-lg">
@@ -42,14 +39,14 @@ export default function DoctorApprovalTable() {
         <TableBody>
           {
             doctors.map((doctor) => (
-              <TableRow>
+              <TableRow key={doctor.id}>
                 <TableCell>{doctor.name}</TableCell>
                 <TableCell>{doctor.licenseNumber}</TableCell>
                 <TableCell>{doctor.email}</TableCell>
                 <TableCell>{doctor.contactNumber ? doctor.contactNumber : "-"}</TableCell>
                 <TableCell>{doctor.specialization}</TableCell>
                 <TableCell className="text-right">
-                  <DoctorReviewSheet />
+                  <Button variant="outline" onClick={() => handleReview(doctor.id)}>Review</Button>
                 </TableCell>
               </TableRow>
             ))
